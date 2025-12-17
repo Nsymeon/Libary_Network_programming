@@ -13,6 +13,7 @@
 </head>
 <body class="bg-light">
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
   <div class="container">
     <a class="navbar-brand" href="index.php">📚 Βιβλιόκοσμος</a>
@@ -59,10 +60,11 @@
                     <span class="error-msg">Παρακαλώ εισάγετε ένα έγκυρο email.</span>
                 </div>
 
+                <!-- Τηλέφωνο με ειδικό έλεγχο -->
                 <div class="mb-3">
                     <label class="form-label">Τηλέφωνο:</label>
-                    <input type="text" class="form-control" name="tilefono" onkeyup="checkInput(this)">
-                    <span class="error-msg">Το τηλέφωνο είναι υποχρεωτικό.</span>
+                    <input type="text" class="form-control" name="tilefono" onkeyup="checkPhone(this)">
+                    <span class="error-msg">Το πεδίο πρέπει να περιέχει μόνο αριθμούς.</span>
                 </div>
 
                 <div class="mb-3">
@@ -90,23 +92,39 @@
 </footer>
 
 <script>
+    // Έλεγχος αν το πεδίο είναι κενό
     function checkInput(input) {
         if (input.value.trim() === "") { setError(input); } else { setSuccess(input); }
     }
+
+    // Έλεγχος αν το email είναι σωστό
     function checkEmail(input) {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!regex.test(input.value)) { setError(input); } else { setSuccess(input); }
     }
+
+    // ΝΕΟΣ ΕΛΕΓΧΟΣ: Μόνο αριθμοί για το τηλέφωνο
+    function checkPhone(input) {
+        const regex = /^[0-9]+$/; // Επιτρέπει μόνο ψηφία 0-9
+        if (!regex.test(input.value)) { 
+            setError(input); 
+        } else { 
+            setSuccess(input); 
+        }
+    }
+
     function setError(element) {
         element.classList.add("is-invalid");
         element.classList.remove("is-valid");
         element.nextElementSibling.style.display = "block";
     }
+
     function setSuccess(element) {
         element.classList.remove("is-invalid");
         element.classList.add("is-valid");
         element.nextElementSibling.style.display = "none";
     }
+
     function validateForm() {
         const checkbox = document.getElementById("oroi");
         if (!checkbox.checked) {
